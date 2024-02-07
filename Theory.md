@@ -10,9 +10,9 @@ https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/mn
 def backprop(self, x, y):
 	"""Returns the nabla of the baises and weights
 	Notes:
-	- self.weights is a matrix (Nl, Nl+1)
-	- self.baises is a vector (Nl, 1)
-	- an activation is a vector (Nl, 1)
+	- self.weights is a matrix (num_layers, Nl+1, Nl)
+	- self.baises is a vector (num_layers, Nl, 1)
+	- an activation and a Z is a vector (Nl, 1)
 	"""
 	nabla_b = [np.zeros(b.shape) for b in self.biases]
 	nabla_w = [np.zeros(w.shape) for w in self.weights]
@@ -27,14 +27,19 @@ def backprop(self, x, y):
 		activations.append(activation)
 	
 	
-	# delta is a vector Nl
+	# delta is a vector (Nl, 1)
 	delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1]) 
 	nabla_b[-1] = delta
-	
+	# Nl+1x1 * 1xNl => Nl+1xNl each row (d1*pa1, d2*pa1, d3*pa1...) is the nebla to a specific neuron in the previous layer
 	nabla_w[-1] = np.dot(delta, activations[-2].transpose())
 
 	for l in xrange(2, self.num_layers):
-		# self.weights[-l+1] -> (1, Nl+1) -> transposed (Nl+1, 1)
+		""" NlxNl+1 * Nl+1x1 => Nlx1 
+		when transposing the weights each rwo describes weights from the same source.
+		multiplied by all the deltas and summed ie: (w00*d0 + w10*d1)
+												    (w01*d0 + w11*d1)
+		handels the case where one previous activation value influcences multiple activation values on the next layer 
+		"""
 		delta = np.dot(self.weights[-l+1].transpose(), delta) * sigmoid_prime(zs[-l])
 		nabla_b[-l] = delta
 		nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
