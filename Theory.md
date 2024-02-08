@@ -1,10 +1,12 @@
 
-learning rate scheduler - changes the learning rate according to the state of the loss function. examples 
+## learning rate scheduler
+
+changes the learning rate according to the state of the loss function. examples 
 * `CosineAnnealingLR` scheduler in PyTorch follows a cosine function to decrease the learning rate from a maximum value to a minimum value over a number of cycles.
 	* decay rate - how fast the learning rate will slow down
 * `ReduceLROnPlateau` scheduler in PyTorch reduces the learning rate by a factor when the validation loss stops improving for a certain number of epochs. This way, the scheduler can avoid getting stuck in a plateau or a local minimum, and explore lower regions of the loss function.
-optimizer 
-- `SGD`
+## optimizers
+### Stochastic Gradient Descent
 https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/mnist_loader.py
 ```python
 def backprop(self, x, y):
@@ -59,4 +61,21 @@ def sigmoid_prime(z):
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
 ```
-- `Adam` & `AdamW`
+### `Adam` & `AdamW`
+...
+
+### gradient clipping
+
+## convolution
+"blends one function with another". In maths convolution is an integral from - infinity to + infinity, where you multiply f(T) with g(t-T) and you go with a step of `dT`
+![[Pasted image 20240208093444.png]]
+
+in neural networks this combination of two function (say an image and a kernel) results a new convolved image.
+![[Pasted image 20240208094802.png]]
+
+## [RCNN](https://en.wikipedia.org/wiki/Recurrent_neural_network)
+
+## transformers
+[this](https://www.youtube.com/watch?v=bCz4OMemCcA) video explains the figure below, taken from [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
+![[Pasted image 20240208101744.png]]
+coding a transformer from scratch [video](https://www.youtube.com/watch?v=ISNdQcPhsts)
